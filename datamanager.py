@@ -1,12 +1,10 @@
 from db_connection import connection_handler
 
-
 @connection_handler
 def get_boards(cursor):
     query = ''' SELECT * FROM boards'''
     cursor.execute(query)
     return cursor.fetchall()
-
 
 
 @connection_handler
@@ -20,7 +18,6 @@ def add_board(cursor,name):
     return cursor.fetchone()
 
 
-
 @connection_handler
 def add_task(cursor,task):
     query = ''' INSERT INTO tasks (task,board_id)
@@ -31,13 +28,11 @@ def add_task(cursor,task):
     return cursor.fetchone()
 
 
-
 @connection_handler
 def get_tasks(cursor):
     query = ''' SELECT * FROM tasks'''
     cursor.execute(query)
     return cursor.fetchall()
-
 
 
 @connection_handler

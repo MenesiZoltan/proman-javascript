@@ -16,19 +16,16 @@ def load_boards():
     return jsonify({"boards":boards,"tasks":tasks})
 
 
-
-@app.route('/create_board',methods=['POST'])
+@app.route('/createBoard',methods=['POST'])
 def create_board():
     new_board = add_board(request.form.get("name"))
     return jsonify(new_board)
 
 
-
-@app.route('/create_task',methods=['POST'])
+@app.route('/createTask',methods=['POST'])
 def create_task():
     new_task = add_task(request.form)
     return jsonify(new_task)
-
 
 
 @app.route('/update_task',methods=['PUT'])
