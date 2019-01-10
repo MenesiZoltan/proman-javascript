@@ -25,15 +25,15 @@
 {#-----------------------------------------------------------------------------------------------------#}
 
     <body>
-        <nav class="navbar navbar-light bg-light">
+        <nav class="navbar navbar-dark navbar-fixed-top bg-dark mb-3 sticky-top" >
             <div class="col">
-                <a class="navbar-brand">ProMan</a>
+                <a class="navbar-brand" style="color:white; font-size: 30px; font-weight: bold">ProMan</a>
             </div>
-            <div class="col">
+            <div class="col-">
                 <div class="input-group mb-3 mt-3">
                     <input id="boardField" type="text" class="form-control" placeholder="New Board's Name" aria-label="Recipient's username" aria-describedby="button-addon2">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-success" type="button" id="submitBoard">Button</button>
+                        <button class="btn btn-outline-success" type="button" id="submitBoard">New Board</button>
                     </div>
                 </div>
             </div>
@@ -41,23 +41,39 @@
         </nav>
         <div class="container" id="boardContainer"></div>
 
+        <template id="taskTemplate">
+            <div class="taskCard"></div>
+        </template>
+
 
         <template id="boardTemplate">
-            <div class="board card text-white bg-secondary mb-3">
-                <div class="boardName card-header"></div>
+            <div class="board card text-white bg-dark mb-3">
+                <div class="row">
+                    <div class="col">
+                        <div class="boardName mt-3" style="font-size: 25px"></div>
+                    </div>
+                    <div class="col-">
+                        <div class="input-group mb-3 mt-3">
+                            <input type="text" class="taskField form-control" placeholder="New Task's Name" aria-label="Recipient's username" aria-describedby="button-addon2">
+                            <div class="input-group-append">
+                                <button class="submitTask btn btn-outline-success" type="button">New Task</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                     <div class="card-body row">
                         <div class="col">
                             <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
                                 <div class="card-header">NEW</div>
-                                <div class="container cardContainer">
-                                        <div class="proba">bdfdfdsfsdfds</div>
+                                <div class="container cardContainer new">
+
                                 </div>
                             </div>
                         </div>
                         <div class="col">
                             <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
                                 <div class="card-header">IN PROGRESS</div>
-                                <div class="container cardContainer">
+                                <div class="container cardContainer inProgress">
 
                                 </div>
                             </div>
@@ -65,7 +81,7 @@
                         <div class="col">
                             <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
                                 <div class="card-header">TESTING</div>
-                                <div class="container cardContainer">
+                                <div class="container cardContainer testing">
 
                                 </div>
                             </div>
@@ -73,7 +89,7 @@
                         <div class="col">
                             <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
                                 <div class="card-header">DONE</div>
-                                <div class="container cardContainer">
+                                <div class="container cardContainer done">
 
                                 </div>
                             </div>

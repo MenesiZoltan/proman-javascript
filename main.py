@@ -12,7 +12,9 @@ def index():
 @app.route('/load_boards')
 def load_boards():
     boards = get_boards()
-    return jsonify(boards)
+    tasks = get_tasks()
+    return jsonify({"boards":boards,"tasks":tasks})
+
 
 
 @app.route('/create_board',methods=['POST'])
@@ -21,12 +23,20 @@ def create_board():
     return jsonify(new_board)
 
 
-def main():
-    app.run(debug=True)
+
+@app.route('/create_task',methods=['POST'])
+def create_task():
+    new_task = add_task(request.form)
+    return jsonify(new_task)
 
 
+
+@app.route('/update_task',methods=['PUT'])
+def update_task():
+    edit_task(request.form)
+    return jsonify({"message":"ok"})
 
 
 
 if __name__ == '__main__':
-    main()
+    app.run(debug=True)

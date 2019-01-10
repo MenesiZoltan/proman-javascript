@@ -1,4 +1,6 @@
-
+body {
+    background-color: lightgrey;
+}
 
 .board {
     padding: 20px;
@@ -17,9 +19,10 @@
 
 
 
-.proba {
+.taskCard {
     width: 100%;
     height: 20px;
     margin: 10px;
     background-color: white;
+    color: black;
 }
