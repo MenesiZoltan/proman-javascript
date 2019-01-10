@@ -46,3 +46,17 @@ def edit_task(cursor,task):
                 SET status=%(status)s
                 WHERE id=%(id)s;'''
     cursor.execute(query,task)
+
+
+@connection_handler
+def remove_task(cursor, id):
+    query = ''' DELETE FROM tasks
+                WHERE id = %(id)s;'''
+    cursor.execute(query, id)
+
+
+@connection_handler
+def remove_board(cursor, id):
+    query = ''' DELETE FROM boards
+                WHERE id = %(id)s;'''
+    cursor.execute(query, id)

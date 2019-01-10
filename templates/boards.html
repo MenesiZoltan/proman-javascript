@@ -25,7 +25,7 @@
                 <div class="input-group mb-3 mt-3">
                     <input id="boardField" type="text" class="form-control" placeholder="New Board's Name">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-success mr-5" type="button" id="submitBoard" disabled>New Board</button>
+                        <button class="btn btn-outline-success mr-5" type="button" id="submitBoard">New Board</button>
                     </div>
                 </div>
             </div>
@@ -43,6 +43,10 @@
         </div>
 
 
+        {#-----------------------------------TRASH CAN---------------------------------------#}
+        {#-----------------------------------------------------------------------------------#}
+        <div id="trash"></div>
+
 
         {#-----------------------------------TASK TEMPLATE----------------------------------#}
         {#----------------------------------------------------------------------------------#}
@@ -54,7 +58,7 @@
         {#-----------------------------------BOARD TEMPLATE----------------------------------#}
         {#-----------------------------------------------------------------------------------#}
         <template id="boardTemplate">
-            <div class="drag-div">
+            <div class="dragdiv">
                 <div class="board card text-white mb-3">
                     <div class="row">
                         <div class="col">

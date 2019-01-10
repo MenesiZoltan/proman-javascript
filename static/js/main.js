@@ -3,6 +3,8 @@ let dom = {
     create_board: function (board) {
         let boardTemplate = document.querySelector("#boardTemplate");
         let boardClone = document.importNode(boardTemplate.content, true);
+        let dragDiv = boardClone.querySelector(".board").parentElement;
+        console.log(dragDiv);
         boardClone.querySelector(".board").setAttribute("id",`board_${board.id}`);
         boardClone.querySelector(".board .boardName").textContent = board.name;
         boardClone.querySelector(".board .submitTask").addEventListener("click",function(){
@@ -11,12 +13,27 @@ let dom = {
             datamanager.postTask(task,boardId);
         });
         document.querySelector("#boardContainer").appendChild(boardClone);
-        let drake = dom.dragulize(board);
-        drake.on("drop",function(element,target){
-            let id = element.dataset.id;
-            let status = target.classList[2];
-            datamanager.updateTask(id,status);
+        let drakeTasks = dom.dragulizeTasks(board);
+        drakeTasks.on("drop",function(element, target){
+            if (target.id === "trash") {
+                datamanager.deleteTask(element.dataset.id);
+                element.remove();
+            } else {
+                let id = element.dataset.id;
+                let status = target.classList[2];
+                datamanager.updateTask(id, status);
+            }
         });
+
+        let drakeBoard = dom.dragulizeBoard(dragDiv);
+        drakeBoard.on("drop", function(element, target){
+            if (target.id === "trash") {
+                let boardId = element.id.split("_")[1];
+                datamanager.deleteBoard(boardId);
+                element.remove();
+            }
+        });
+
     },
 
 
@@ -29,13 +46,20 @@ let dom = {
     },
 
 
-    dragulize : function(board){
+    dragulizeTasks : function(board){
         let newBoard = document.querySelector(`#board_${board.id}`);
         let cardContainer = Array.from(newBoard.querySelectorAll(".cardContainer"));
+        cardContainer.push(document.querySelector("#trash"));
         return dragula(cardContainer);
+    },
+
+    dragulizeBoard : function(dragDiv){
+        let containers = [dragDiv, document.querySelector("#trash")];
+        return dragula(containers, {
+            moves: function(el, container, handle) {
+            return !handle.classList.contains('alert');
+        }});
     }
-
-
 };
 
 
@@ -87,8 +111,23 @@ let datamanager = {
         fetch("http://127.0.0.1:5000/update_task",{method:'PUT',body:formdata})
             .then(response => response.json())
             .then(data => console.log(data))
-    }
+    },
 
+    deleteTask : function (id) {
+        let formdata = new FormData();
+        formdata.append("id", id);
+        fetch("http://127.0.0.1:5000/delete_task", {method: 'DELETE', body: formdata})
+            .then(response => response.json())
+            .then(data => console.log(data))
+    },
+
+    deleteBoard : function (id) {
+        let formdata = new FormData();
+        formdata.append("id", id);
+        fetch("http://127.0.0.1:5000/delete_board", {method: 'DELETE', body: formdata})
+            .then(response => response.json())
+            .then(data => console.log(data))
+    }
 };
 
 

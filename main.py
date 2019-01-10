@@ -34,8 +34,19 @@ def create_task():
 @app.route('/update_task',methods=['PUT'])
 def update_task():
     edit_task(request.form)
-    return jsonify({"message":"ok"})
+    return jsonify({"message":"task is updated"})
 
+
+@app.route('/delete_task', methods=['DELETE'])
+def delete_task():
+    remove_task(request.form)
+    return jsonify({"message": "task is deleted"})
+
+
+@app.route('/delete_board', methods=['DELETE'])
+def delete_board():
+    remove_board(request.form)
+    return jsonify({"message": "board has been deleted"})
 
 
 if __name__ == '__main__':

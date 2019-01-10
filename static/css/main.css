@@ -12,10 +12,10 @@ body {
     transition: 0.3s;
 }
 
-/*.board:hover {*/
-    /*transition: 0.3s;*/
-    /*background-color: #6a777d;*/
-/*}*/
+/*.board:hover {
+    transition: 0.3s;
+    background-color: #6a777d;
+}*/
 
 .cardArea {
     border-radius: 25px;
@@ -62,18 +62,31 @@ body {
 }
 
 
-#trash {
-    background-image: url("trash02.png");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 90px;
-    width: 150px;
-    height: 150px;
-    position: fixed;
-    bottom: 0;
-    right: 0;
-}
-
 input[type=text] {
     max-width: 185px;
 }
+
+
+#trash {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    height: 200px;
+    width: 200px;
+    background-image: url("trash02.png");
+    background-position: center;
+    background-size: 90px;
+    background-repeat: no-repeat;
+}
+
+
+
+
+
+
+
+
+
+
+
+
