@@ -62,6 +62,17 @@ body {
 }
 
 
+#trash {
+    background-image: url("trash02.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 90px;
+    width: 150px;
+    height: 150px;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
 
 input[type=text] {
     max-width: 185px;
