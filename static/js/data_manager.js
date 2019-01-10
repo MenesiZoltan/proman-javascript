@@ -1,5 +1,6 @@
 import {dom} from "./dom.js";
 
+
 export let datamanager = {
 
     baseUrl: 'http://127.0.0.1:5000',
@@ -10,9 +11,7 @@ export let datamanager = {
         formdata.append("name",boardName);
         fetch(datamanager.baseUrl + '/createBoard',{method:'POST',body:formdata})
 	        .then(response => response.json())
-	        .then(board => {
-	            dom.createBoard(board);
-            });
+	        .then(board => dom.createBoard(board))
     },
 
 
@@ -22,9 +21,7 @@ export let datamanager = {
         formdata.append("board_id",boardId);
         fetch(datamanager.baseUrl + '/createTask',{method:'POST',body:formdata})
             .then(response => response.json())
-            .then(task =>{
-                dom.createTask(task);
-            })
+            .then(task =>dom.createTask(task))
     },
 
 

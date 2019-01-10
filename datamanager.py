@@ -1,5 +1,6 @@
 from db_connection import connection_handler
 
+
 @connection_handler
 def get_boards(cursor):
     query = ''' SELECT * FROM boards'''

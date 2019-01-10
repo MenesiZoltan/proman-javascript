@@ -1,5 +1,6 @@
 import {datamanager} from "./data_manager.js";
 
+
 export let dom = {
 
     loadBoardsOnStartup: function() {
@@ -9,7 +10,7 @@ export let dom = {
 
     initSubmitBoardBtn: function() {
         let addBoardBtn = document.querySelector("#submitBoard");
-        addBoardBtn.addEventListener("click",function(event){
+        addBoardBtn.addEventListener("click",function(){
             datamanager.postBoard();
             document.querySelector("#boardField").value = "";
         });
@@ -23,9 +24,10 @@ export let dom = {
 
 
     initCreateTaskBtn: function() {
-            let task = this.closest(".input-group").querySelector(".taskField").value;
-            let boardId = this.closest(".board").dataset.id;
-            datamanager.postTask(task,boardId);
+        let taskField = this.closest(".input-group").querySelector(".taskField");
+        let boardId = this.closest(".board").dataset.id;
+        datamanager.postTask(taskField.value,boardId);
+        taskField.value = "";
     },
 
 
@@ -53,10 +55,11 @@ export let dom = {
 
 
     createTask: function(task){
-        let cardClone = dom.cloneTemplate("#taskTemplate");
-        cardClone.querySelector(".taskCard").dataset.id = task.id;
-        cardClone.querySelector(".taskCard").textContent = task.task;
-        document.querySelector(`#board_${task.board_id}`).querySelector(`.${task.status}`).appendChild(cardClone);
+        let taskClone = dom.cloneTemplate("#taskTemplate");
+        taskClone.querySelector(".taskCard").dataset.id = task.id;
+        taskClone.querySelector(".taskCard").textContent = task.task;
+        let board = document.querySelector(`#board_${task.board_id}`);
+        board.querySelector(`.${task.status}`).appendChild(taskClone);
     },
 
 
@@ -75,7 +78,7 @@ export let dom = {
             task.remove();
         } else {
             let id = task.dataset.id;
-            let status = targetContainer.classList[2];
+            let status = targetContainer.dataset.status;
             datamanager.updateTask(id, status);
         }
     },
