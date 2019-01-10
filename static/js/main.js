@@ -1,39 +1,38 @@
-let dom = {
+import {datamanager} from "./data_manager.js";
 
-    create_board: function (board) {
-        let boardTemplate = document.querySelector("#boardTemplate");
-        let boardClone = document.importNode(boardTemplate.content, true);
-        let dragDiv = boardClone.querySelector(".board").parentElement;
-        console.log(dragDiv);
-        boardClone.querySelector(".board").setAttribute("id",`board_${board.id}`);
-        boardClone.querySelector(".board .boardName").textContent = board.name;
-        boardClone.querySelector(".board .submitTask").addEventListener("click",function(){
+export let dom = {
+
+    cloneElement: function(selector) {
+        let boardTemplate = document.querySelector(selector);
+        return document.importNode(boardTemplate.content, true);
+
+    },
+
+    initCreateTaskBtn: function() {
             let task = this.closest(".input-group").querySelector(".taskField").value;
             let boardId = this.closest(".board").id.split("_")[1];
             datamanager.postTask(task,boardId);
-        });
+    },
+
+    setBoardClone: function(boardClone, board, callback) {
+        boardClone.querySelector(".board").dataset.id = board.id;
+        boardClone.querySelector(".board").setAttribute("id",`board_${board.id}`);
+        boardClone.querySelector(".board .boardName").textContent = board.name;
+        boardClone.querySelector(".board .submitTask").addEventListener("click",callback);
+    },
+
+
+    addBoardCloneToDom: function(boardClone) {
         document.querySelector("#boardContainer").appendChild(boardClone);
-        let drakeTasks = dom.dragulizeTasks(board);
-        drakeTasks.on("drop",function(element, target){
-            if (target.id === "trash") {
-                datamanager.deleteTask(element.dataset.id);
-                element.remove();
-            } else {
-                let id = element.dataset.id;
-                let status = target.classList[2];
-                datamanager.updateTask(id, status);
-            }
-        });
+    },
 
-        let drakeBoard = dom.dragulizeBoard(dragDiv);
-        drakeBoard.on("drop", function(element, target){
-            if (target.id === "trash") {
-                let boardId = element.id.split("_")[1];
-                datamanager.deleteBoard(boardId);
-                element.remove();
-            }
-        });
-
+    create_board: function (boardData) {
+        let boardClone = dom.cloneElement("#boardTemplate");
+        let boardContainer = boardClone.querySelector(".board").parentElement;
+        dom.setBoardClone(boardClone, boardData, dom.initCreateTaskBtn);
+        dom.addBoardCloneToDom(boardClone);
+        dom.dragulizeTasks(boardData, dom.tasksDropHandler);
+        dom.dragulizeBoard(boardContainer, dom.boardDropHandler);
     },
 
 
@@ -42,93 +41,54 @@ let dom = {
         let cardClone = document.importNode(cardTemplate.content, true);
         cardClone.querySelector(".taskCard").dataset.id = task.id;
         cardClone.querySelector(".taskCard").textContent = task.task;
-        let cardContainer = document.querySelector(`#board_${task.board_id}`).querySelector(`.${task.status}`).appendChild(cardClone);
+        document.querySelector(`#board_${task.board_id}`).querySelector(`.${task.status}`).appendChild(cardClone);
     },
 
+    boardDropHandler: function(board, targetContainer) {
+        if (targetContainer.id === "trash") {
+            let boardId = board.dataset.id;
+            datamanager.deleteBoard(boardId);
+            board.remove();
+        }
+    },
 
-    dragulizeTasks : function(board){
-        let newBoard = document.querySelector(`#board_${board.id}`);
+    tasksDropHandler: function(task, targetContainer){
+        if (targetContainer.id === "trash") {
+            datamanager.deleteTask(task.dataset.id);
+            task.remove();
+        } else {
+            let id = task.dataset.id;
+            let status = targetContainer.classList[2];
+            datamanager.updateTask(id, status);
+        }
+    },
+
+    dragulizeTasks : function(boardData, dropHandler){
+        let newBoard = document.querySelector(`#board_${boardData.id}`);
         let cardContainer = Array.from(newBoard.querySelectorAll(".cardContainer"));
         cardContainer.push(document.querySelector("#trash"));
-        return dragula(cardContainer);
+        let drakeTasks = dragula(cardContainer);
+        drakeTasks.on("drop", dropHandler);
     },
 
-    dragulizeBoard : function(dragDiv){
+
+
+    dragulizeBoard : function(dragDiv, dropHandler){
         let containers = [dragDiv, document.querySelector("#trash")];
-        return dragula(containers, {
+        let drakeBoard = dragula(containers, {
             moves: function(el, container, handle) {
             return !handle.classList.contains('alert');
         }});
+
+        drakeBoard.on("drop", dropHandler)
+
+
     }
 };
 
 
 
-let datamanager = {
 
-    postBoard : function(){
-        let formdata = new FormData();
-        let boardName = document.querySelector("#boardField").value;
-        formdata.append("name",boardName);
-        fetch('http://127.0.0.1:5000/create_board',{method:'POST',body:formdata})
-	        .then(response => response.json())
-	        .then(board => {
-	            dom.create_board(board);
-            });
-    },
-
-
-    postTask : function(task,boardId){
-        let formdata = new FormData();
-        formdata.append("task",task);
-        formdata.append("board_id",boardId);
-        fetch('http://127.0.0.1:5000/create_task',{method:'POST',body:formdata})
-            .then(response => response.json())
-            .then(task =>{
-                dom.create_task(task);
-            })
-    },
-
-
-    getBoards : function(){
-        fetch("http://127.0.0.1:5000/load_boards",{method:'GET'})
-            .then(response => response.json())
-            .then(data =>{
-                for(let board of data.boards){
-                    dom.create_board(board);
-                }
-                for(let task of data.tasks ){
-                    dom.create_task(task);
-                }
-            })
-    },
-
-
-    updateTask : function (id,status) {
-        let formdata = new FormData();
-        formdata.append("id",id);
-        formdata.append("status",status);
-        fetch("http://127.0.0.1:5000/update_task",{method:'PUT',body:formdata})
-            .then(response => response.json())
-            .then(data => console.log(data))
-    },
-
-    deleteTask : function (id) {
-        let formdata = new FormData();
-        formdata.append("id", id);
-        fetch("http://127.0.0.1:5000/delete_task", {method: 'DELETE', body: formdata})
-            .then(response => response.json())
-            .then(data => console.log(data))
-    },
-
-    deleteBoard : function (id) {
-        let formdata = new FormData();
-        formdata.append("id", id);
-        fetch("http://127.0.0.1:5000/delete_board", {method: 'DELETE', body: formdata})
-            .then(response => response.json())
-            .then(data => console.log(data))
-    }
-};
 
 
 function main(){
