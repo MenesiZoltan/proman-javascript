@@ -1,103 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+    <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>ProMan</title>
-
         <link rel="stylesheet" href="{{ url_for("static",filename="bootstrap/bootstrap.css") }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+        <link rel="stylesheet" href="{{ url_for("static",filename="dragula/dragula.css") }}">
+        <link rel="stylesheet" href="{{ url_for("static",filename="css/font.css") }}">
         <script defer src="{{ url_for("static",filename="bootstrap/jquery.js") }}"></script>
         <script defer src="{{ url_for("static",filename="bootstrap/popper.js") }}"></script>
         <script defer src="{{ url_for("static",filename="bootstrap/bootstrap.js") }}"></script>
-
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-
-
-        <link rel="stylesheet" href="{{ url_for("static",filename="dragula/dragula.css") }}">
         <script defer src="{{ url_for("static",filename="dragula/dragula.js") }}"></script>
-
-        <script defer  src="{{ url_for('static', filename='js/main.js') }}"></script>
+        <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
+        <title>ProMan V1</title>
     </head>
 
-{#-----------------------------------------------------------------------------------------------------#}
-{#-----------------------------------------------------------------------------------------------------#}
-
     <body>
+        {#--------------------------------------NAVBAR--------------------------------------#}
+        {#----------------------------------------------------------------------------------#}
         <nav class="navbar navbar-dark navbar-fixed-top bg-dark mb-3 sticky-top" >
             <div class="col">
-                <a class="navbar-brand" style="color:white; font-size: 30px; font-weight: bold">ProMan</a>
+                <a class="navbar-brand text-white">ProMan V1</a>
             </div>
             <div class="col-">
                 <div class="input-group mb-3 mt-3">
-                    <input id="boardField" type="text" class="form-control" placeholder="New Board's Name" aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <input id="boardField" type="text" class="form-control" placeholder="New Board's Name">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-success" type="button" id="submitBoard">New Board</button>
+                        <button class="btn btn-outline-success mr-5" type="button" id="submitBoard" disabled>New Board</button>
                     </div>
                 </div>
             </div>
-
         </nav>
-        <div class="container" id="boardContainer"></div>
 
+
+        {#----------------------------------BOARD CONTAINER---------------------------------#}
+        {#----------------------------------------------------------------------------------#}
+        <div id="main" class="container-fluid">
+            <div class="col-"></div>
+            <div class="col">
+                <div class="container" id="boardContainer"></div>
+            </div>
+            <div class="col-"></div>
+        </div>
+
+
+
+        {#-----------------------------------TASK TEMPLATE----------------------------------#}
+        {#----------------------------------------------------------------------------------#}
         <template id="taskTemplate">
-            <div class="taskCard"></div>
+            <div class="taskCard alert alert-secondary text-center p-0"></div>
         </template>
 
 
+        {#-----------------------------------BOARD TEMPLATE----------------------------------#}
+        {#-----------------------------------------------------------------------------------#}
         <template id="boardTemplate">
-            <div class="board card text-white bg-dark mb-3">
-                <div class="row">
-                    <div class="col">
-                        <div class="boardName mt-3" style="font-size: 25px"></div>
+            <div class="drag-div">
+                <div class="board card text-white mb-3">
+                    <div class="row">
+                        <div class="col">
+                            <div class="boardName mt-3 text-center"></div>
+                        </div>
+                        <div class="col- pr-4 h-100">
+                            <div class="input-group mb-3 mt-3">
+                                <input type="text" class="taskField form-control" placeholder="New Task's Name">
+                                <div class="input-group-append">
+                                    <button class="submitTask btn btn-outline-success" type="button">New Task</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-">
-                        <div class="input-group mb-3 mt-3">
-                            <input type="text" class="taskField form-control" placeholder="New Task's Name" aria-label="Recipient's username" aria-describedby="button-addon2">
-                            <div class="input-group-append">
-                                <button class="submitTask btn btn-outline-success" type="button">New Task</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                    <div class="card-body row">
-                        <div class="col">
-                            <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
-                                <div class="card-header">NEW</div>
-                                <div class="container cardContainer new">
-
+                        <div class="card-body row">
+                            {#-----------------------------------NEW CONTAINER-----------------------------------#}
+                            {#-----------------------------------------------------------------------------------#}
+                            <div class="col h-100">
+                                <div class="taskContainer card text-white bg-secondary mb-3">
+                                    <div class="card-header text-center mb-2">NEW</div>
+                                    <div class="container cardContainer new">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col">
-                            <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
-                                <div class="card-header">IN PROGRESS</div>
-                                <div class="container cardContainer inProgress">
-
+                            {#---------------------------------PROGRESS CONTAINER-------------------------------#}
+                            {#----------------------------------------------------------------------------------#}
+                            <div class="col h-100">
+                                <div class="taskContainer card text-white bg-secondary mb-3">
+                                    <div class="card-header text-center mb-2">IN PROGRESS</div>
+                                    <div class="container cardContainer inProgress">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col">
-                            <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
-                                <div class="card-header">TESTING</div>
-                                <div class="container cardContainer testing">
-
+                            {#----------------------------------TESTING CONTAINER--------------------------------#}
+                            {#-----------------------------------------------------------------------------------#}
+                            <div class="col h-100">
+                                <div class="taskContainer card text-white bg-secondary mb-3">
+                                    <div class="card-header text-center mb-2">TESTING</div>
+                                    <div class="container cardContainer testing">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col">
-                            <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
-                                <div class="card-header">DONE</div>
-                                <div class="container cardContainer done">
-
+                            {#-----------------------------------DONE CONTAINER----------------------------------#}
+                            {#-----------------------------------------------------------------------------------#}
+                            <div class="col h-100">
+                                <div class="taskContainer card text-white bg-secondary mb-3">
+                                    <div class="card-header text-center mb-2">DONE</div>
+                                    <div class="container cardContainer done">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
         </template>
-
-
     </body>
 </html>
