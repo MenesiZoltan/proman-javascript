@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-------------------------------------------------TITLE----------------------------------------------------------->
+    <!----------------------------------------------------------------------------------------------------------------->
+    <title>API WARS - CC</title>
+
+
+    <!-------------------------------------------------CSS IMPORTS----------------------------------------------------->
+    <!----------------------------------------------------------------------------------------------------------------->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/customcss.css">
+
+
+    <!-------------------------------------------------JAVASCRIPT IMPORTS---------------------------------------------->
+    <!----------------------------------------------------------------------------------------------------------------->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+
+    <div class="container">
+        <h2 class="card_title">LOGIN</h2>
+        <div class="card d-inline-block" style="width: 18rem;">
+            <form method="POST" action="{{ url_for('login') }}">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input name="email" type="email" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input name="password" type="password" class="form-control"  placeholder="Password">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+        <h2 class = "card_title">REGISTER</h2>
+        <div class="card d-inline-block" style="width: 18rem;">
+            <form method="POST" action="{{ url_for('registration') }}">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input name="email" type="email" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input name="password" type="password" class="form-control" placeholder="Password">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+
+
+</body>
+</html>

@@ -9,6 +9,7 @@ export let datamanager = {
         let formdata = new FormData();
         let boardName = document.querySelector("#boardField").value;
         formdata.append("name",boardName);
+        console.log(formdata);
         fetch(datamanager.baseUrl + '/createBoard',{method:'POST',body:formdata})
 	        .then(response => response.json())
 	        .then(board => dom.createBoard(board))

@@ -1,4 +1,15 @@
 from db_connection import connection_handler
+import bcrypt
+
+def hash_password(plain_text_password):
+    # By using bcrypt, the salt is saved into the hash itself
+    hashed_bytes = bcrypt.hashpw(plain_text_password.encode('utf-8'), bcrypt.gensalt())
+    return hashed_bytes.decode('utf-8')
+
+
+def verify_password(plain_text_password, hashed_password):
+    hashed_bytes_password = hashed_password.encode('utf-8')
+    return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_bytes_password)
 
 
 @connection_handler
@@ -56,3 +67,24 @@ def remove_board(cursor, id):
     query = ''' DELETE FROM boards
                 WHERE id = %(id)s;'''
     cursor.execute(query, id)
+
+
+@connection_handler
+def register_user(cursor, password, email):
+    query = '''
+            INSERT INTO users (password, email)
+            VALUES(%(password)s, %(email)s);
+            '''
+    params = {'password': password, 'email': email}
+    cursor.execute(query, params)
+
+
+@connection_handler
+def user_data(cursor, email):
+    query = '''
+            SELECT * FROM users
+            WHERE email = %(email)s;
+            '''
+    params = {'email': email}
+    cursor.execute(query, params)
+    return cursor.fetchone()

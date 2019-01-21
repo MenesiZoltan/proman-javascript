@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session
 from datamanager import *
 
 app = Flask(__name__)
+app.secret_key = 'hello'
 
 
-@app.route("/",methods=['GET'])
+@app.route("/boards",methods=['GET'])
 def index():
     return render_template('boards.html')
 
@@ -44,6 +45,33 @@ def delete_task():
 def delete_board():
     remove_board(request.form)
     return jsonify({"message": "board has been deleted"})
+
+
+@app.route('/')
+def index_page():
+    return render_template('index_page.html')
+
+
+@app.route('/registration', methods=['POST'])
+def registration():
+    try:
+        user_input = request.form.to_dict()
+        user_input['password'] = hash_password(user_input['password'])
+        register_user(user_input['password'], user_input['email'])
+        return redirect(url_for('index_page'))
+    except Exception:
+        return 'Reg failed!'
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    user_input = request.form.to_dict()
+    user_details = user_data(user_input['email'])
+    if user_details and verify_password(user_input['password'], user_details['password']):
+        session['user_id'] = user_details['id']
+        return redirect(url_for('index'))
+    return redirect(url_for('login'))
+
 
 
 if __name__ == '__main__':
