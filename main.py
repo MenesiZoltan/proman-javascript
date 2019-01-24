@@ -4,6 +4,8 @@ from datamanager import *
 app = Flask(__name__)
 app.secret_key = 'hello'
 
+#TESTING
+
 
 # INDEX
 @app.route('/')
