@@ -13,27 +13,30 @@ def verify_password(plain_text_password, hashed_password):
 
 
 @connection_handler
-def get_boards(cursor):
-    query = ''' SELECT * FROM boards'''
-    cursor.execute(query)
+def get_boards(cursor, user_id):
+    query = ''' SELECT * FROM boards
+                WHERE user_id=%(user_id)s'''
+    params ={"user_id":user_id}
+    cursor.execute(query, params)
     return cursor.fetchall()
 
 
 @connection_handler
-def add_board(cursor,name):
+def add_board(cursor,name ,user_id):
     query = ''' INSERT INTO boards (name,user_id)
-                VALUES (%(name)s,69);
+                VALUES (%(name)s, %(user_id)s);
                 SELECT * FROM boards
                 ORDER BY id DESC LIMIT 1; '''
-    params = {"name":name}
+    params = {"name":name,
+              "user_id":user_id }
     cursor.execute(query,params)
     return cursor.fetchone()
 
 
 @connection_handler
 def add_task(cursor,task):
-    query = ''' INSERT INTO tasks (task,board_id)
-                VALUES (%(task)s,%(board_id)s);
+    query = ''' INSERT INTO tasks (task,board_id,user_id)
+                VALUES (%(task)s,%(board_id)s,%(user_id)s);
                 SELECT * FROM tasks
                 ORDER BY id DESC LIMIT 1;'''
     cursor.execute(query,task)
@@ -41,9 +44,11 @@ def add_task(cursor,task):
 
 
 @connection_handler
-def get_tasks(cursor):
-    query = ''' SELECT * FROM tasks'''
-    cursor.execute(query)
+def get_tasks(cursor, user_id):
+    query = ''' SELECT * FROM tasks
+                WHERE user_id=%(user_id)s'''
+    params={"user_id":user_id}
+    cursor.execute(query, params)
     return cursor.fetchall()
 
 
