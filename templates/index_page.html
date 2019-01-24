@@ -21,41 +21,51 @@
 
 </head>
 <body>
-
+    <!-------------------------------------------------LOGIN AND REGISTER --------------------------------------------->
+    <!----------------------------------------------------------------------------------------------------------------->
 
     <div class="container">
-        <h2 class="card_title">LOGIN</h2>
-        <div class="card d-inline-block" style="width: 18rem;">
-            <form method="POST" action="{{ url_for('login') }}">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input name="email" type="email" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email">
-                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input name="password" type="password" class="form-control"  placeholder="Password">
-                </div>
+        <div class="row">
+            <!----------------------------------------------LOGIN------------------------------------------------------>
+            <!--------------------------------------------------------------------------------------------------------->
+            <div class="col-sm">
+                <h2 class="card_title">LOGIN</h2>
+                <div class="card d-inline-block" style="width: 18rem;">
+                    <form method="POST" action="{{ url_for('login') }}">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Email address</label>
+                            <input name="email" type="email" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email">
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input name="password" type="password" class="form-control"  placeholder="Password">
+                        </div>
 
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
-
-        <h2 class = "card_title">REGISTER</h2>
-        <div class="card d-inline-block" style="width: 18rem;">
-            <form method="POST" action="{{ url_for('registration') }}">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input name="email" type="email" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email">
-                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input name="password" type="password" class="form-control" placeholder="Password">
-                </div>
+            </div>
+            <!-------------------------------------------REGISTER------------------------------------------------------>
+            <!--------------------------------------------------------------------------------------------------------->
+            <div class="col-sm">
+                <h2 class = "card_title">REGISTER</h2>
+                <div class="card d-inline-block" style="width: 18rem;">
+                    <form method="POST" action="{{ url_for('registration') }}">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Email address</label>
+                            <input name="email" type="email" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email">
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input name="password" type="password" class="form-control" placeholder="Password">
+                        </div>
 
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 

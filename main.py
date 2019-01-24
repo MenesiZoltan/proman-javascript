@@ -79,6 +79,12 @@ def login():
     return redirect(url_for('login'))
 
 
+@app.route("/log_out")
+def log_out():
+    session.clear()
+    return redirect(url_for("index_page"))
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

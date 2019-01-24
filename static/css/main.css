@@ -79,6 +79,17 @@ input[type=text] {
     background-repeat: no-repeat;
 }
 
+.logout {
+    padding: auto;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: auto;
+    width: auto;
+    margin-bottom: 50px;
+    margin-left: 50px;
+}
+
 
 
 
